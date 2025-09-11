@@ -1,0 +1,5 @@
+{
+  "name": "Web Audio Compressor",
+  "description": "A browser-based audio compression tool. Upload your audio files, choose compression settings, and download the smaller, compressed version without installing any software.",
+  "requestFramePermissions": []
+}
