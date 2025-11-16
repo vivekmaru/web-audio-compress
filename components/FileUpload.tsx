@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
-import { SUPPORTED_INPUT_FORMATS } from '../constants';
+import { SUPPORTED_INPUT_FORMATS, MAX_FILE_SIZE } from '../constants';
 import { UploadIcon, CheckCircleIcon } from './Icons';
 
 interface FileUploadProps {
@@ -17,6 +17,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, disabled, 
     setError(null);
     if (files && files.length > 0) {
       const file = files[0];
+
+      // Check file size first
+      if (file.size > MAX_FILE_SIZE) {
+        const sizeMB = Math.round(file.size / (1024 * 1024));
+        setError(`File is too large (${sizeMB}MB). Maximum file size is 100MB.`);
+        return;
+      }
+
+      // Check file type
       if (SUPPORTED_INPUT_FORMATS.includes(file.type)) {
         onFileUpload(file);
       } else {

@@ -30,3 +30,6 @@ export const SUPPORTED_INPUT_FORMATS = [
   'audio/mp4',
   'audio/x-m4a',
 ];
+
+// Maximum file size: 100MB
+export const MAX_FILE_SIZE = 100 * 1024 * 1024;

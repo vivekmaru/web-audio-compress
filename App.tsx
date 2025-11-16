@@ -53,7 +53,15 @@ const App: React.FC = () => {
 
   useEffect(() => {
     loadFfmpeg();
-  }, [loadFfmpeg]);
+
+    // Cleanup on unmount
+    return () => {
+      // Revoke any blob URLs
+      if (result?.downloadUrl) {
+        URL.revokeObjectURL(result.downloadUrl);
+      }
+    };
+  }, [loadFfmpeg, result?.downloadUrl]);
 
   const handleFileUpload = useCallback((file: File) => {
     setInputFile(file);
@@ -64,6 +72,11 @@ const App: React.FC = () => {
 
   const handleCompress = async () => {
     if (!inputFile || !ffmpegRef.current) return;
+
+    // Revoke previous blob URL to prevent memory leak
+    if (result?.downloadUrl) {
+      URL.revokeObjectURL(result.downloadUrl);
+    }
 
     setAppState(AppState.COMPRESSING);
     setError(null);
